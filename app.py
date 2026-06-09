@@ -300,4 +300,4 @@ if __name__ == "__main__":
     print("🎨 Constat Generator API — http://localhost:5000")
     print("   POST /generate  →  retourne le .xlsx")
     print("   GET  /health    →  vérification")
-    app.run(debug=True, port=5000)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
