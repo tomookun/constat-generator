@@ -7,94 +7,179 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh}
-.hdr{background:#161b22;border-bottom:1px solid #21262d;padding:14px 24px;display:flex;align-items:center;gap:12px}
-.logo{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#1f6feb,#388bfd);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.hdr h1{font-size:15px;font-weight:700;color:#e6edf3}
-.hdr p{font-size:11px;color:#8b949e}
-.main{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px 24px;max-width:960px;margin:0 auto}
-.card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:18px}
-.card-title{font-size:11px;font-weight:700;color:#58a6ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
-label{display:block;font-size:11px;color:#8b949e;margin-bottom:4px}
-input,select{width:100%;background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:7px 10px;color:#e6edf3;font-size:13px;outline:none;font-family:inherit;box-sizing:border-box}
+/* Header */
+.hdr{background:#161b22;border-bottom:1px solid #21262d;padding:13px 22px;display:flex;align-items:center;gap:12px}
+.logo{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#1f6feb,#388bfd);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.hdr-info{flex:1}
+.hdr-info h1{font-size:14px;font-weight:700}
+.hdr-info p{font-size:10px;color:#8b949e}
+.nav{display:flex;gap:6px}
+.nav-btn{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:5px 12px;color:#8b949e;cursor:pointer;font-size:11px;font-weight:600;font-family:inherit;transition:all .15s}
+.nav-btn:hover{color:#e6edf3;border-color:#58a6ff}
+.nav-btn.active{background:#0d2149;border-color:#1f6feb;color:#58a6ff}
+/* Layout */
+.view{display:none}
+.view.active{display:block}
+.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:16px 22px;max-width:960px;margin:0 auto}
+.col{display:flex;flex-direction:column;gap:11px}
+/* Cards */
+.card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:16px}
+.card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.card-title{font-size:10px;font-weight:700;color:#58a6ff;text-transform:uppercase;letter-spacing:1px}
+.card-action{background:none;border:1px solid #1f6feb;border-radius:5px;padding:3px 9px;color:#58a6ff;cursor:pointer;font-size:10px;font-family:inherit}
+/* Forms */
+label{display:block;font-size:10px;color:#8b949e;margin-bottom:3px}
+input,select,textarea{width:100%;background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:6px 9px;color:#e6edf3;font-size:12px;outline:none;font-family:inherit}
 input:focus,select:focus{border-color:#58a6ff}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
-.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
-.mes-inp{background:#0d1117;border:2px solid #1f6feb;border-radius:8px;padding:10px 6px;color:#e6edf3;font-size:17px;font-weight:700;text-align:center;width:100%;outline:none;font-family:inherit}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.row4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.field{display:flex;flex-direction:column;gap:3px}
+/* Mesures */
+.mes-lbl{font-size:11px;font-weight:700;color:#79c0ff;text-align:center;display:block;margin-bottom:4px}
+.mes-inp{background:#0d1117;border:2px solid #1f6feb;border-radius:8px;padding:9px 4px;color:#e6edf3;font-size:16px;font-weight:700;text-align:center;width:100%;outline:none;font-family:inherit}
 .mes-inp:focus{border-color:#388bfd}
-.mes-label{font-size:12px;font-weight:700;color:#79c0ff;text-align:center;display:block;margin-bottom:5px}
-.ref-box{background:#0d1117;border:1px solid #21262d;border-radius:7px;padding:9px 12px;margin-top:8px}
-.ref-vals{display:flex;gap:14px;font-family:monospace;margin-top:4px}
-.delta-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:10px}
-.delta-card{display:flex;flex-direction:column;align-items:center;border-radius:8px;padding:8px 4px;border:1px solid}
+/* Delta */
+.delta-wrap{background:#0d1117;border-radius:8px;padding:10px;border:2px solid #238636;display:none}
+.delta-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px}
+.delta-card{display:flex;flex-direction:column;align-items:center;border-radius:7px;padding:7px 3px;border:1px solid}
 .result-row{display:flex;align-items:center;justify-content:space-between}
-.badge{padding:6px 14px;border-radius:7px;font-weight:800;font-size:12px;border:2px solid}
-.vis-row{display:flex;gap:10px}
-.vis-btn{flex:1;padding:9px 0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px;border:2px solid;background:transparent;font-family:inherit;transition:all .15s}
-.num-box{background:#0d2149;border:1px solid #1f6feb;border-radius:9px;padding:12px;display:none}
-.num-lbl{font-size:10px;color:#58a6ff;font-weight:600;text-transform:uppercase;margin-bottom:4px}
-.gen-btn{width:100%;padding:14px 0;border-radius:10px;border:none;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;margin-top:4px;transition:all .2s}
-.msg{border-radius:9px;padding:12px;text-align:center;margin-top:8px;display:none}
-.col{display:flex;flex-direction:column;gap:12px}
-.ftr{border-top:1px solid #21262d;padding:9px 24px;display:flex;justify-content:space-between;margin-top:8px}
-.ftr span{font-size:10px;color:#484f58}
-.field{margin-bottom:0}
+.badge{padding:5px 12px;border-radius:7px;font-weight:800;font-size:11px;border:2px solid}
+/* Visuel */
+.vis-row{display:flex;gap:8px}
+.vis-btn{flex:1;padding:8px 0;border-radius:8px;cursor:pointer;font-weight:700;font-size:11px;border:2px solid;background:transparent;font-family:inherit;transition:all .15s}
+/* Numéro */
+.num-box{background:#0d2149;border:1px solid #1f6feb;border-radius:8px;padding:10px;display:none}
+/* Bouton générer */
+.gen-btn{width:100%;padding:13px 0;border-radius:10px;border:none;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:2px}
+.gen-btn:disabled{cursor:not-allowed;opacity:.5}
+.msg{border-radius:8px;padding:10px;text-align:center;display:none;margin-top:6px;font-size:12px}
+/* Catalogue view */
+.cat-wrap{padding:16px 22px;max-width:860px;margin:0 auto}
+.cat-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.etalon-item{background:#161b22;border:1px solid #21262d;border-radius:9px;padding:12px 15px;display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.etalon-item-info{flex:1}
+.etalon-item-vals{display:flex;gap:12px;font-family:monospace;font-size:11px}
+.etalon-item-btns{display:flex;gap:6px}
+/* Settings view */
+.settings-wrap{padding:16px 22px;max-width:760px;margin:0 auto}
+.settings-section{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:18px;margin-bottom:12px}
+.settings-title{font-size:11px;font-weight:700;color:#58a6ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #21262d}
+.tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tag{display:flex;align-items:center;gap:5px;background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:4px 10px;font-size:11px}
+.tag-del{background:none;border:none;color:#f85149;cursor:pointer;font-size:13px;padding:0;line-height:1}
+.add-row{display:flex;gap:8px}
+.spectro-item{background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:12px;margin-bottom:8px}
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:#161b22;border:1px solid #30363d;border-radius:14px;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;padding:24px}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-title{font-size:14px;font-weight:700}
+.modal-close{background:none;border:none;color:#8b949e;font-size:20px;cursor:pointer;line-height:1}
+.modal-section{background:#0d1117;border-radius:8px;padding:13px;border:1px solid #21262d;margin-bottom:12px}
+.modal-section-title{font-size:9px;color:#58a6ff;font-weight:700;text-transform:uppercase;margin-bottom:10px}
+.modal-actions{display:flex;gap:10px;margin-top:18px}
+/* Buttons */
+.btn-primary{background:linear-gradient(135deg,#1f6feb,#388bfd);border:none;border-radius:7px;padding:9px 18px;color:#fff;font-weight:700;cursor:pointer;font-size:12px;font-family:inherit}
+.btn-secondary{background:#21262d;border:1px solid #30363d;border-radius:7px;padding:9px 18px;color:#e6edf3;font-weight:600;cursor:pointer;font-size:12px;font-family:inherit}
+.btn-danger{background:#3a1a1a;border:1px solid #f85149;border-radius:6px;padding:5px 10px;color:#f85149;cursor:pointer;font-size:11px;font-family:inherit}
+.btn-edit{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:5px 10px;color:#e6edf3;cursor:pointer;font-size:11px;font-family:inherit}
+/* Ref box */
+.ref-box{background:#0d1117;border:1px solid #21262d;border-radius:7px;padding:8px 11px;margin-top:8px}
+.ref-vals{display:flex;gap:12px;font-family:monospace;margin-top:3px}
+/* Footer */
+.ftr{border-top:1px solid #21262d;padding:8px 22px;display:flex;justify-content:space-between;margin-top:6px}
+.ftr span{font-size:9px;color:#484f58}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="hdr">
   <div class="logo">🎨</div>
-  <div>
-    <h1>Générateur de Constat — Étalon Secondaire de Peinture</h1>
-    <p>CAF Reichshoffen — Service Qualité Méthodes Métrologie</p>
+  <div class="hdr-info">
+    <h1 id="hdr-title">Générateur de Constat — Étalon Secondaire de Peinture</h1>
+    <p id="hdr-sub">CAF Reichshoffen — Service Qualité Méthodes Métrologie</p>
+  </div>
+  <div class="nav">
+    <button class="nav-btn active" onclick="setView('main')">📋 Formulaire</button>
+    <button class="nav-btn" onclick="setView('catalogue')" id="nav-cat">📚 Catalogue</button>
+    <button class="nav-btn" onclick="setView('settings')">⚙️ Paramètres</button>
   </div>
 </div>
 
-<div class="main">
+<!-- VUE PRINCIPALE -->
+<div id="view-main" class="view active">
+<div class="main-grid">
   <div class="col">
 
+    <!-- 1 Étalon -->
     <div class="card">
-      <div class="card-title">1 — Étalon à revalider</div>
-      <label>Sélectionner l'étalon</label>
-      <select id="etalon-sel" onchange="onEtalonChange()">
-        <option value="">— Choisir un étalon —</option>
-        <option value="RAL_9005">RAL 9005 — Noir foncé &gt;90 (Liquide)</option>
-        <option value="NCS_S2502">NCS S2502-Y — Blanc cassé 20-50% (Solide)</option>
-        <option value="RAL_7016">RAL 7016 — Gris anthracite &lt;30 (Liquide)</option>
-      </select>
-      <div id="etalon-detail" style="display:none;margin-top:10px">
-        <div class="row2">
-          <div class="field"><label>N° étalon secondaire</label><input id="sec-num" value="N°1" oninput="updateNumero()"></div>
-          <div class="field"><label>Position série</label><input id="pos-serie" value="1" oninput="updateNumero()"></div>
+      <div class="card-hdr">
+        <span class="card-title">1 — Étalon à revalider</span>
+        <button class="card-action" onclick="openModal('new')">➕ Nouveau</button>
+      </div>
+      <div class="field" style="margin-bottom:8px">
+        <label>Sélectionner l'étalon</label>
+        <select id="etalon-sel" onchange="onEtalonChange()">
+          <option value="">— Choisir un étalon —</option>
+        </select>
+      </div>
+      <div id="etalon-detail" style="display:none">
+        <div class="row2" style="margin-bottom:8px">
+          <div class="field"><label>N° dans le lot</label><input id="num-etalon" value="1" type="number" min="1" oninput="updateNumero()"></div>
+          <div class="field"><label>Taille du lot</label><input id="taille-lot" value="3" type="number" min="1" oninput="updateNumero()"></div>
         </div>
         <div class="ref-box">
-          <p style="font-size:10px;color:#8b949e" id="ref-label">Réf primaire</p>
+          <p style="font-size:9px;color:#8b949e" id="ref-label">Réf primaire</p>
           <div class="ref-vals" id="ref-vals"></div>
+          <button onclick="openModal('edit')" style="margin-top:6px;background:none;border:none;color:#484f58;cursor:pointer;font-size:10px;padding:0">✏️ Modifier cet étalon</button>
         </div>
       </div>
     </div>
 
+    <!-- 2 Projet & Fournisseur -->
     <div class="card">
-      <div class="card-title">2 — Spectro-colorimètre</div>
-      <select id="spectro-sel" onchange="updateSpectro()" style="margin-bottom:6px">
-        <option value="0">X-Rite RM200 — 2010002886</option>
-        <option value="1">X-Rite MA98 — 2010003012</option>
-      </select>
-      <p style="font-size:11px;color:#8b949e">Validité : <span id="spectro-valid"></span></p>
+      <div class="card-title" style="margin-bottom:12px">2 — Projet & Fournisseur</div>
+      <div class="row2">
+        <div class="field">
+          <label>Projet</label>
+          <select id="projet" onchange="updateNumero()">
+            <option value="HAN">HAN — Hanovre</option>
+            <option value="REG">REG — Regiolis</option>
+            <option value="OXY">OXY — Oxygène</option>
+            <option value="MI20">MI20 — MI20</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Fournisseur</label>
+          <select id="fournisseur" onchange="updateNumero()">
+            <option value="MA">MA — Mader</option>
+            <option value="AX">AX — Axalta</option>
+            <option value="AK">AK — Akzo Nobel</option>
+            <option value="SO">SO — Soritec</option>
+          </select>
+        </div>
+      </div>
     </div>
 
+    <!-- 3 Spectro -->
     <div class="card">
-      <div class="card-title">3 — Informations constat</div>
-      <label>Opérateur</label>
-      <select id="operateur" style="margin-bottom:10px">
-        <option>L. VOEGTLING</option>
-        <option>D. KOEHL</option>
-        <option>J. GUILLERET</option>
-        <option>F.Z. SAFI</option>
-        <option>T. LATOUR</option>
+      <div class="card-title" style="margin-bottom:12px">3 — Spectro-colorimètre</div>
+      <select id="spectro-sel" onchange="updateSpectro()" style="margin-bottom:6px">
       </select>
+      <p style="font-size:10px;color:#8b949e">Validité : <span id="spectro-valid"></span></p>
+    </div>
+
+    <!-- 4 Infos -->
+    <div class="card">
+      <div class="card-title" style="margin-bottom:12px">4 — Informations constat</div>
+      <div class="field" style="margin-bottom:8px">
+        <label>Opérateur</label>
+        <select id="operateur"></select>
+      </div>
       <div class="row2">
-        <div class="field"><label>Date constat</label><input type="date" id="date-constat"></div>
+        <div class="field"><label>Date constat</label><input type="date" id="date-constat" oninput="updateNumero()"></div>
         <div class="field"><label>Date val. primaire</label><input type="date" id="date-prim"></div>
       </div>
     </div>
@@ -103,107 +188,361 @@ input:focus,select:focus{border-color:#58a6ff}
 
   <div class="col">
 
+    <!-- 5 Mesures -->
     <div class="card">
-      <div class="card-title">4 — Valeurs mesurées</div>
-      <div class="row3">
-        <div><label class="mes-label">L*</label><input type="number" step="0.01" class="mes-inp" id="mes-L" placeholder="0.00" oninput="computeDelta()"></div>
-        <div><label class="mes-label">a*</label><input type="number" step="0.01" class="mes-inp" id="mes-a" placeholder="0.00" oninput="computeDelta()"></div>
-        <div><label class="mes-label">b*</label><input type="number" step="0.01" class="mes-inp" id="mes-b" placeholder="0.00" oninput="computeDelta()"></div>
+      <div class="card-title" style="margin-bottom:12px">5 — Valeurs mesurées</div>
+      <div class="row3" style="margin-bottom:10px">
+        <div><label class="mes-lbl">L*</label><input type="number" step="0.01" class="mes-inp" id="mes-L" placeholder="0.00" oninput="computeDelta()"></div>
+        <div><label class="mes-lbl">a*</label><input type="number" step="0.01" class="mes-inp" id="mes-a" placeholder="0.00" oninput="computeDelta()"></div>
+        <div><label class="mes-lbl">b*</label><input type="number" step="0.01" class="mes-inp" id="mes-b" placeholder="0.00" oninput="computeDelta()"></div>
       </div>
-      <div id="delta-box" style="display:none;background:#0d1117;border-radius:8px;padding:12px;border:2px solid #238636">
+      <div class="delta-wrap" id="delta-box">
         <div class="delta-grid" id="delta-grid"></div>
         <div class="result-row">
           <span>
-            <span style="font-size:12px;color:#8b949e">ΔE = </span>
-            <span id="de-val" style="font-size:20px;font-weight:800;font-family:monospace;color:#3fb950">0.00</span>
-            <span id="de-seuil" style="font-size:10px;color:#484f58;margin-left:5px">/ 0.8</span>
+            <span style="font-size:11px;color:#8b949e">ΔE = </span>
+            <span id="de-val" style="font-size:19px;font-weight:800;font-family:monospace;color:#3fb950">0.00</span>
+            <span id="de-seuil" style="font-size:10px;color:#484f58;margin-left:4px">/ 0.8</span>
           </span>
           <div class="badge" id="conforme-badge" style="color:#3fb950;border-color:#3fb950;background:#1a3a2a">✓ CONFORME</div>
         </div>
       </div>
     </div>
 
+    <!-- 6 Visuel -->
     <div class="card">
-      <div class="card-title">5 — Contrôle visuel (DTREI 150613)</div>
+      <div class="card-title" style="margin-bottom:10px" id="visuel-title">6 — Contrôle visuel (DTREI 150613)</div>
       <div class="vis-row">
         <button class="vis-btn" id="btn-conf" style="color:#3fb950;border-color:#3fb950;background:#1a3a2a" onclick="setVisuel('CONFORME')">✓ CONFORME</button>
         <button class="vis-btn" id="btn-nonconf" style="color:#f85149;border-color:#f85149;opacity:.35" onclick="setVisuel('NON CONFORME')">✗ NON CONFORME</button>
       </div>
     </div>
 
+    <!-- Numéro constat -->
     <div class="num-box" id="num-box">
-      <p class="num-lbl">Numéro de constat</p>
-      <p id="num-val" style="font-size:11px;font-family:monospace;word-break:break-all;color:#e6edf3"></p>
+      <p style="font-size:9px;color:#58a6ff;font-weight:600;text-transform:uppercase;margin-bottom:3px">Numéro de constat</p>
+      <p id="num-val" style="font-size:11px;font-family:monospace;word-break:break-all;color:#e6edf3;font-weight:700"></p>
     </div>
 
-    <button class="gen-btn" id="gen-btn" disabled
-      style="background:#21262d;color:#484f58"
-      onclick="generate()">
+    <!-- Générer -->
+    <button class="gen-btn" id="gen-btn" disabled style="background:#21262d;color:#484f58" onclick="generate()">
       📥 Générer le constat Excel (.xlsx)
     </button>
-
-    <div id="msg-box" class="msg"></div>
+    <div class="msg" id="msg-box"></div>
 
   </div>
 </div>
+</div>
+
+<!-- VUE CATALOGUE -->
+<div id="view-catalogue" class="view">
+<div class="cat-wrap">
+  <div class="cat-hdr">
+    <h2 style="font-size:15px;font-weight:700">📚 Catalogue des étalons</h2>
+    <button class="btn-primary" onclick="openModal('new')">➕ Nouvel étalon</button>
+  </div>
+  <div id="cat-list"></div>
+</div>
+</div>
+
+<!-- VUE PARAMÈTRES -->
+<div id="view-settings" class="view">
+<div class="settings-wrap">
+  <h2 style="font-size:15px;font-weight:700;margin-bottom:14px">⚙️ Paramètres</h2>
+
+  <!-- Général -->
+  <div class="settings-section">
+    <div class="settings-title">🏭 Général</div>
+    <div class="row2">
+      <div class="field"><label>Site</label><input id="cfg-site" oninput="saveCfg()"></div>
+      <div class="field"><label>Norme contrôle visuel</label><input id="cfg-norme" oninput="saveCfg()"></div>
+    </div>
+  </div>
+
+  <!-- Opérateurs -->
+  <div class="settings-section">
+    <div class="settings-title">👤 Opérateurs</div>
+    <div class="tag-list" id="op-list"></div>
+    <div class="add-row">
+      <input id="new-op" placeholder="Prénom NOM (ex: J. DUPONT)" onkeydown="if(event.key==='Enter')addOp()">
+      <button class="btn-primary" onclick="addOp()" style="white-space:nowrap">+ Ajouter</button>
+    </div>
+  </div>
+
+  <!-- Spectros -->
+  <div class="settings-section">
+    <div class="settings-title">🔬 Spectro-colorimètres</div>
+    <div id="spectro-list"></div>
+    <div style="background:#0d1117;border:1px dashed #30363d;border-radius:8px;padding:12px">
+      <p style="font-size:10px;color:#8b949e;margin-bottom:8px">Ajouter un spectro</p>
+      <div class="row2" style="margin-bottom:8px">
+        <input id="new-sp-ref" placeholder="Modèle (ex: X-Rite MA98)">
+        <input id="new-sp-id" placeholder="N° identification">
+      </div>
+      <div class="add-row">
+        <input type="date" id="new-sp-val" style="flex:1">
+        <button class="btn-primary" onclick="addSpectro()">+ Ajouter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Technologies -->
+  <div class="settings-section">
+    <div class="settings-title">🧪 Technologies</div>
+    <div class="tag-list" id="tech-list"></div>
+    <div class="add-row">
+      <input id="new-tech" placeholder="Ex: Hydro-diluable" onkeydown="if(event.key==='Enter')addTech()">
+      <button class="btn-primary" onclick="addTech()">+ Ajouter</button>
+    </div>
+  </div>
+
+  <!-- Projets -->
+  <div class="settings-section">
+    <div class="settings-title">🚆 Projets</div>
+    <div class="tag-list" id="proj-list"></div>
+    <div class="add-row">
+      <input id="new-proj-code" placeholder="Code (ex: CDGX)" style="max-width:120px">
+      <input id="new-proj-label" placeholder="Libellé (ex: CDG Express)">
+      <button class="btn-primary" onclick="addProjet()">+ Ajouter</button>
+    </div>
+  </div>
+
+  <!-- Fournisseurs -->
+  <div class="settings-section">
+    <div class="settings-title">🏭 Fournisseurs</div>
+    <div class="tag-list" id="four-list"></div>
+    <div class="add-row">
+      <input id="new-four-code" placeholder="Code (ex: BA)" style="max-width:100px">
+      <input id="new-four-label" placeholder="Nom (ex: Basf)">
+      <button class="btn-primary" onclick="addFournisseur()">+ Ajouter</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- MODAL ÉTALON -->
+<div class="modal-overlay" id="modal" style="display:none">
+<div class="modal">
+  <div class="modal-hdr">
+    <span class="modal-title" id="modal-title">Nouvel étalon</span>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+  </div>
+  <div class="modal-section">
+    <div class="modal-section-title">Identification</div>
+    <div class="row2" style="margin-bottom:8px">
+      <div class="field"><label>Teinte (ex: RAL9005)</label><input id="m-teinte" placeholder="RAL9005"></div>
+      <div class="field"><label>Brillance (ex: 90)</label><input id="m-brillance" placeholder="90"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>Technologie</label><select id="m-techno"></select></div>
+      <div class="field"><label>Étalon primaire de réf.</label><input id="m-primaire" placeholder="RAL 9005"></div>
+    </div>
+  </div>
+  <div class="modal-section">
+    <div class="modal-section-title">L*a*b de référence (étalon primaire)</div>
+    <div class="row3">
+      <div class="field"><label>L*</label><input type="number" step="0.01" id="m-refL" placeholder="0.00"></div>
+      <div class="field"><label>a*</label><input type="number" step="0.01" id="m-refA" placeholder="0.00"></div>
+      <div class="field"><label>b*</label><input type="number" step="0.01" id="m-refB" placeholder="0.00"></div>
+    </div>
+  </div>
+  <div class="modal-section">
+    <div class="modal-section-title">Tolérances</div>
+    <div class="row4" style="margin-bottom:8px">
+      <div class="field"><label>ΔL min</label><input type="number" step="0.01" id="m-tLmin" value="-0.5"></div>
+      <div class="field"><label>ΔL max</label><input type="number" step="0.01" id="m-tLmax" value="0.5"></div>
+      <div class="field"><label>Δa min</label><input type="number" step="0.01" id="m-tAmin" value="-0.3"></div>
+      <div class="field"><label>Δa max</label><input type="number" step="0.01" id="m-tAmax" value="0.3"></div>
+    </div>
+    <div class="row4">
+      <div class="field"><label>Δb min</label><input type="number" step="0.01" id="m-tBmin" value="-0.3"></div>
+      <div class="field"><label>Δb max</label><input type="number" step="0.01" id="m-tBmax" value="0.3"></div>
+      <div class="field"><label>ΔE max</label><input type="number" step="0.01" id="m-tdE" value="0.8"></div>
+      <div></div>
+    </div>
+  </div>
+  <div class="modal-actions">
+    <button class="btn-secondary" onclick="closeModal()" style="flex:1">Annuler</button>
+    <button class="btn-primary" onclick="saveEtalon()" style="flex:2" id="modal-save-btn">➕ Ajouter</button>
+  </div>
+</div>
+</div>
 
 <div class="ftr">
-  <span>CAF Reichshoffen — Service Qualité Méthodes Métrologie</span>
+  <span id="ftr-site">CAF Reichshoffen — Service Qualité Méthodes Métrologie</span>
   <span id="ftr-date"></span>
 </div>
 
 <script>
 const FLASK = "https://constat-generator.onrender.com";
-
-const CATALOGUE = {
-  RAL_9005:  {teinte:"RAL_9005",  brillance:">90",    techno:"Liquide", primaire:"RAL 9005",    L:5.0,  a:0.1,  b:-0.2, tLmin:-0.5,tLmax:0.5,tamin:-0.3,tamax:0.3,tbmin:-0.3,tbmax:0.3,tdE:0.8},
-  NCS_S2502: {teinte:"NCS_S2502-Y",brillance:"20-50%",techno:"Solide",  primaire:"NCS S2502-Y", L:90.2, a:-0.3, b:2.1,  tLmin:-0.5,tLmax:0.5,tamin:-0.3,tamax:0.3,tbmin:-0.3,tbmax:0.3,tdE:0.8},
-  RAL_7016:  {teinte:"RAL_7016",  brillance:"<30",    techno:"Liquide", primaire:"RAL 7016",    L:26.4, a:-0.8, b:-3.2, tLmin:-0.5,tLmax:0.5,tamin:-0.3,tamax:0.3,tbmin:-0.3,tbmax:0.3,tdE:0.8},
+const LS = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set: (k,v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 };
 
-const SPECTROS = [
-  {ref:"X-Rite RM200", id:"2010002886", validite:"2025-08-01"},
-  {ref:"X-Rite MA98",  id:"2010003012", validite:"2026-02-01"},
+// ── Defaults
+const DEF_CFG = {
+  site: "Reichshoffen", norme: "DTREI 150613",
+  operateurs: ["L. VOEGTLING","D. KOEHL","J. GUILLERET","F.Z. SAFI","T. LATOUR"],
+  spectros: [
+    {ref:"X-Rite RM200",id:"2010002886",validite:"2025-08-01"},
+    {ref:"X-Rite MA98", id:"2010003012",validite:"2026-02-01"}
+  ],
+  technologies: ["Liquide","Solide","Poudre"],
+  projets: [
+    {code:"HAN",label:"Hanovre"},{code:"REG",label:"Regiolis"},
+    {code:"OXY",label:"Oxygène"},{code:"MI20",label:"MI20"}
+  ],
+  fournisseurs: [
+    {code:"MA",label:"Mader"},{code:"AX",label:"Axalta"},
+    {code:"AK",label:"Akzo Nobel"},{code:"SO",label:"Soritec"}
+  ]
+};
+const DEF_CAT = [
+  {id:"RAL_9005_90",teinte:"RAL9005",brillance:"90",techno:"Liquide",primaire:"RAL 9005",refL:5.0,refA:0.1,refB:-0.2,tLmin:-0.5,tLmax:0.5,tAmin:-0.3,tAmax:0.3,tBmin:-0.3,tBmax:0.3,tdE:0.8},
+  {id:"NCS_S2502_50",teinte:"NCS_S2502-Y",brillance:"50",techno:"Solide",primaire:"NCS S2502-Y",refL:90.2,refA:-0.3,refB:2.1,tLmin:-0.5,tLmax:0.5,tAmin:-0.3,tAmax:0.3,tBmin:-0.3,tBmax:0.3,tdE:0.8},
+  {id:"RAL_7016_30",teinte:"RAL7016",brillance:"30",techno:"Liquide",primaire:"RAL 7016",refL:26.4,refA:-0.8,refB:-3.2,tLmin:-0.5,tLmax:0.5,tAmin:-0.3,tAmax:0.3,tBmin:-0.3,tBmax:0.3,tdE:0.8}
 ];
 
+let cfg = LS.get("cfg") || DEF_CFG;
+let catalogue = LS.get("catalogue") || DEF_CAT;
 let visuel = "CONFORME";
 let currentEtalon = null;
+let editingId = null;
 
-document.getElementById("date-constat").value = new Date().toISOString().split("T")[0];
-document.getElementById("ftr-date").textContent = new Date().toLocaleDateString("fr-FR");
-updateSpectro();
+function saveCfg() {
+  cfg.site = document.getElementById("cfg-site").value;
+  cfg.norme = document.getElementById("cfg-norme").value;
+  LS.set("cfg", cfg);
+  document.getElementById("hdr-sub").textContent = "CAF " + cfg.site + " — Service Qualité Méthodes Métrologie";
+  document.getElementById("ftr-site").textContent = "CAF " + cfg.site + " — Service Qualité Méthodes Métrologie";
+  document.getElementById("visuel-title").textContent = "6 — Contrôle visuel (" + cfg.norme + ")";
+}
+
+function init() {
+  document.getElementById("date-constat").value = new Date().toISOString().split("T")[0];
+  document.getElementById("ftr-date").textContent = new Date().toLocaleDateString("fr-FR");
+  document.getElementById("cfg-site").value = cfg.site;
+  document.getElementById("cfg-norme").value = cfg.norme;
+  document.getElementById("visuel-title").textContent = "6 — Contrôle visuel (" + cfg.norme + ")";
+  document.getElementById("hdr-sub").textContent = "CAF " + cfg.site + " — Service Qualité Méthodes Métrologie";
+  document.getElementById("ftr-site").textContent = "CAF " + cfg.site + " — Service Qualité Méthodes Métrologie";
+  renderAll();
+}
+
+function renderAll() {
+  renderEtalonSel(); renderSpectroSel(); renderOperateurSel();
+  renderProjetSel(); renderFournisseurSel();
+  renderCatalogue(); renderSettings();
+  document.getElementById("nav-cat").textContent = "📚 Catalogue (" + catalogue.length + ")";
+}
+
+function renderEtalonSel() {
+  const sel = document.getElementById("etalon-sel");
+  const val = sel.value;
+  sel.innerHTML = '<option value="">— Choisir un étalon —</option>';
+  catalogue.forEach(e => {
+    const o = document.createElement("option");
+    o.value = e.id;
+    o.textContent = e.teinte + " — " + e.brillance + "% (" + e.techno + ")";
+    sel.appendChild(o);
+  });
+  if (val) sel.value = val;
+}
+
+function renderSpectroSel() {
+  const sel = document.getElementById("spectro-sel");
+  const val = sel.value;
+  sel.innerHTML = "";
+  cfg.spectros.forEach((s,i) => {
+    const o = document.createElement("option");
+    o.value = i; o.textContent = s.ref + " — " + s.id;
+    sel.appendChild(o);
+  });
+  updateSpectro();
+}
+
+function renderOperateurSel() {
+  const sel = document.getElementById("operateur");
+  const val = sel.value;
+  sel.innerHTML = "";
+  cfg.operateurs.forEach(op => {
+    const o = document.createElement("option");
+    o.value = op; o.textContent = op; sel.appendChild(o);
+  });
+  if (val) sel.value = val;
+}
+
+function renderProjetSel() {
+  const sel = document.getElementById("projet");
+  const val = sel.value;
+  sel.innerHTML = "";
+  cfg.projets.forEach(p => {
+    const o = document.createElement("option");
+    o.value = p.code; o.textContent = p.code + " — " + p.label;
+    sel.appendChild(o);
+  });
+  if (val) sel.value = val;
+  updateNumero();
+}
+
+function renderFournisseurSel() {
+  const sel = document.getElementById("fournisseur");
+  const val = sel.value;
+  sel.innerHTML = "";
+  cfg.fournisseurs.forEach(f => {
+    const o = document.createElement("option");
+    o.value = f.code; o.textContent = f.code + " — " + f.label;
+    sel.appendChild(o);
+  });
+  if (val) sel.value = val;
+  updateNumero();
+}
 
 function updateSpectro() {
-  const i = parseInt(document.getElementById("spectro-sel").value);
-  const s = SPECTROS[i];
+  const i = parseInt(document.getElementById("spectro-sel").value) || 0;
+  const s = cfg.spectros[i];
+  if (!s) return;
   const expired = new Date(s.validite) < new Date();
-  document.getElementById("spectro-valid").textContent = s.validite + (expired ? " ⚠ Expiré" : " ✓ Valide");
-  document.getElementById("spectro-valid").style.color = expired ? "#f85149" : "#3fb950";
+  const el = document.getElementById("spectro-valid");
+  el.textContent = s.validite + (expired ? " ⚠ Expiré" : " ✓ Valide");
+  el.style.color = expired ? "#f85149" : "#3fb950";
 }
 
 function onEtalonChange() {
   const sel = document.getElementById("etalon-sel").value;
-  currentEtalon = CATALOGUE[sel] || null;
+  currentEtalon = catalogue.find(e => e.id === sel) || null;
   document.getElementById("etalon-detail").style.display = currentEtalon ? "block" : "none";
   document.getElementById("num-box").style.display = currentEtalon ? "block" : "none";
   if (currentEtalon) {
     document.getElementById("ref-label").textContent = "Réf primaire : " + currentEtalon.primaire;
     document.getElementById("ref-vals").innerHTML =
-      `<span><span style="font-size:10px;color:#8b949e">L* </span><span style="font-size:13px;font-weight:700;color:#79c0ff">${currentEtalon.L.toFixed(2)}</span></span>` +
-      `<span><span style="font-size:10px;color:#8b949e">a* </span><span style="font-size:13px;font-weight:700;color:#79c0ff">${currentEtalon.a.toFixed(2)}</span></span>` +
-      `<span><span style="font-size:10px;color:#8b949e">b* </span><span style="font-size:13px;font-weight:700;color:#79c0ff">${currentEtalon.b.toFixed(2)}</span></span>`;
+      ["L*","a*","b*"].map((k,i) => {
+        const v = [currentEtalon.refL, currentEtalon.refA, currentEtalon.refB][i];
+        return `<span><span style="font-size:9px;color:#8b949e">${k} </span><span style="font-size:12px;font-weight:700;color:#79c0ff">${v.toFixed(2)}</span></span>`;
+      }).join("");
     document.getElementById("de-seuil").textContent = "/ " + currentEtalon.tdE;
   }
-  computeDelta(); updateNumero();
+  ["mes-L","mes-a","mes-b"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("delta-box").style.display = "none";
+  document.getElementById("gen-btn").disabled = true;
+  document.getElementById("gen-btn").style.background = "#21262d";
+  document.getElementById("gen-btn").style.color = "#484f58";
+  updateNumero();
 }
 
 function updateNumero() {
   if (!currentEtalon) return;
   const date = document.getElementById("date-constat").value || new Date().toISOString().split("T")[0];
   const [y, m] = date.split("-");
-  const sec = document.getElementById("sec-num").value;
+  const projet = document.getElementById("projet").value;
+  const four = document.getElementById("fournisseur").value;
+  const num = document.getElementById("num-etalon").value;
+  const total = document.getElementById("taille-lot").value;
+  const brill = currentEtalon.brillance;
   document.getElementById("num-val").textContent =
-    `HAN_${currentEtalon.teinte}_${currentEtalon.brillance.replace(/[^a-zA-Z0-9]/g,"")}_${m}-${y}_${sec}`;
+    `${projet}_${currentEtalon.teinte}_${four}${brill}_${m}-${y}_N°${num}/${total}`;
 }
 
 function computeDelta() {
@@ -214,106 +553,228 @@ function computeDelta() {
   const box = document.getElementById("delta-box");
   const btn = document.getElementById("gen-btn");
   if (!e || isNaN(L) || isNaN(a) || isNaN(b)) {
-    box.style.display = "none"; btn.disabled = true;
-    btn.style.background = "#21262d"; btn.style.color = "#484f58"; return;
+    box.style.display="none"; btn.disabled=true;
+    btn.style.background="#21262d"; btn.style.color="#484f58"; return;
   }
-  const dL=L-e.L, da=a-e.a, db=b-e.b;
-  const dE = Math.sqrt(dL*dL + da*da + db*db);
-  const okL=dL>=e.tLmin&&dL<=e.tLmax, oka=da>=e.tamin&&da<=e.tamax,
-        okb=db>=e.tbmin&&db<=e.tbmax, okE=dE<=e.tdE;
-  const ok = okL&&oka&&okb&&okE;
-  box.style.display = "block";
-  box.style.borderColor = ok ? "#238636" : "#da3633";
+  const dL=L-e.refL, da=a-e.refA, db=b-e.refB;
+  const dE=Math.sqrt(dL*dL+da*da+db*db);
+  const okL=dL>=e.tLmin&&dL<=e.tLmax, oka=da>=e.tAmin&&da<=e.tAmax,
+        okb=db>=e.tBmin&&db<=e.tBmax, okE=dE<=e.tdE;
+  const ok=okL&&oka&&okb&&okE;
+  box.style.display="block"; box.style.borderColor=ok?"#238636":"#da3633";
   document.getElementById("delta-grid").innerHTML =
-    [["ΔL",dL,e.tLmin,e.tLmax,okL],["Δa",da,e.tamin,e.tamax,oka],["Δb",db,e.tbmin,e.tbmax,okb]]
+    [["ΔL",dL,e.tLmin,e.tLmax,okL],["Δa",da,e.tAmin,e.tAmax,oka],["Δb",db,e.tBmin,e.tBmax,okb]]
     .map(([l,v,mn,mx,o]) =>
       `<div class="delta-card" style="background:${o?"#1a3a2a":"#3a1a1a"};border-color:${o?"#3fb950":"#f85149"}">
         <span style="font-size:9px;color:#8b949e;margin-bottom:2px">${l}</span>
-        <span style="font-size:15px;font-weight:800;font-family:monospace;color:${o?"#3fb950":"#f85149"}">${v.toFixed(2)}</span>
+        <span style="font-size:14px;font-weight:800;font-family:monospace;color:${o?"#3fb950":"#f85149"}">${v.toFixed(2)}</span>
         <span style="font-size:8px;color:#484f58">[${mn};${mx}]</span>
       </div>`).join("");
-  const deEl = document.getElementById("de-val");
-  deEl.textContent = dE.toFixed(2); deEl.style.color = okE ? "#3fb950" : "#f85149";
-  const badge = document.getElementById("conforme-badge");
-  badge.textContent = ok ? "✓ CONFORME" : "✗ NON CONFORME";
-  badge.style.color = ok ? "#3fb950" : "#f85149";
-  badge.style.borderColor = ok ? "#3fb950" : "#f85149";
-  badge.style.background = ok ? "#1a3a2a" : "#3a1a1a";
-  btn.disabled = false;
-  btn.style.background = "linear-gradient(135deg,#1f6feb,#388bfd)";
-  btn.style.color = "#fff";
+  const deEl=document.getElementById("de-val");
+  deEl.textContent=dE.toFixed(2); deEl.style.color=okE?"#3fb950":"#f85149";
+  const badge=document.getElementById("conforme-badge");
+  badge.textContent=ok?"✓ CONFORME":"✗ NON CONFORME";
+  badge.style.color=ok?"#3fb950":"#f85149"; badge.style.borderColor=ok?"#3fb950":"#f85149";
+  badge.style.background=ok?"#1a3a2a":"#3a1a1a";
+  btn.disabled=false; btn.style.background="linear-gradient(135deg,#1f6feb,#388bfd)"; btn.style.color="#fff";
 }
 
 function setVisuel(v) {
-  visuel = v;
-  document.getElementById("btn-conf").style.opacity    = v==="CONFORME"     ? "1" : "0.35";
-  document.getElementById("btn-conf").style.background = v==="CONFORME"     ? "#1a3a2a" : "transparent";
-  document.getElementById("btn-nonconf").style.opacity    = v==="NON CONFORME" ? "1" : "0.35";
-  document.getElementById("btn-nonconf").style.background = v==="NON CONFORME" ? "#3a1a1a" : "transparent";
+  visuel=v;
+  document.getElementById("btn-conf").style.opacity=v==="CONFORME"?"1":"0.35";
+  document.getElementById("btn-conf").style.background=v==="CONFORME"?"#1a3a2a":"transparent";
+  document.getElementById("btn-nonconf").style.opacity=v==="NON CONFORME"?"1":"0.35";
+  document.getElementById("btn-nonconf").style.background=v==="NON CONFORME"?"#3a1a1a":"transparent";
 }
 
 async function generate() {
-  const e = currentEtalon; if (!e) return;
-  const btn = document.getElementById("gen-btn");
-  const msgBox = document.getElementById("msg-box");
-  btn.textContent = "⏳ Génération en cours..."; btn.disabled = true;
-  msgBox.style.display = "none";
-
-  const spectroIdx = parseInt(document.getElementById("spectro-sel").value);
-  const sp = SPECTROS[spectroIdx];
-  const dateConstat = document.getElementById("date-constat").value;
-  const [y, m] = dateConstat.split("-");
-  const sec = document.getElementById("sec-num").value;
-
-  const payload = {
-    numero_constat: `HAN_${e.teinte}_${e.brillance.replace(/[^a-zA-Z0-9]/g,"")}_${m}-${y}_${sec}`,
-    site: "Reichshoffen", norme_visuelle: "DTREI 150613",
-    teinte: `${e.teinte}_${sec}`, brillance: e.brillance, technologie: e.techno,
-    spectro_ref: sp.ref, spectro_id: sp.id, spectro_validite: sp.validite,
-    etalon_secondaire: e.primaire, etalon_primaire: e.primaire,
-    ref_L: e.L, ref_a: e.a, ref_b: e.b,
-    date_validation_primaire: document.getElementById("date-prim").value || dateConstat,
-    tol_L_min: e.tLmin, tol_L_max: e.tLmax,
-    tol_a_min: e.tamin, tol_a_max: e.tamax,
-    tol_b_min: e.tbmin, tol_b_max: e.tbmax, tol_dE: e.tdE,
-    mes_L: parseFloat(document.getElementById("mes-L").value),
-    mes_a: parseFloat(document.getElementById("mes-a").value),
-    mes_b: parseFloat(document.getElementById("mes-b").value),
-    res_visuel: visuel,
-    etabli_par: document.getElementById("operateur").value,
-    date_constat: dateConstat,
+  const e=currentEtalon; if(!e) return;
+  const btn=document.getElementById("gen-btn"), msgBox=document.getElementById("msg-box");
+  btn.textContent="⏳ Génération en cours..."; btn.disabled=true; msgBox.style.display="none";
+  const spIdx=parseInt(document.getElementById("spectro-sel").value)||0;
+  const sp=cfg.spectros[spIdx];
+  const dateConstat=document.getElementById("date-constat").value;
+  const [y,m]=dateConstat.split("-");
+  const projet=document.getElementById("projet").value;
+  const four=document.getElementById("fournisseur").value;
+  const num=document.getElementById("num-etalon").value;
+  const total=document.getElementById("taille-lot").value;
+  const numero=`${projet}_${e.teinte}_${four}${e.brillance}_${m}-${y}_N°${num}/${total}`;
+  const payload={
+    numero_constat:numero, site:cfg.site, norme_visuelle:cfg.norme,
+    teinte:`${e.teinte}`, brillance:e.brillance+"%", technologie:e.techno,
+    spectro_ref:sp.ref, spectro_id:sp.id, spectro_validite:sp.validite,
+    etalon_secondaire:e.primaire, etalon_primaire:e.primaire,
+    ref_L:e.refL, ref_a:e.refA, ref_b:e.refB,
+    date_validation_primaire:document.getElementById("date-prim").value||dateConstat,
+    tol_L_min:e.tLmin,tol_L_max:e.tLmax,tol_a_min:e.tAmin,tol_a_max:e.tAmax,
+    tol_b_min:e.tBmin,tol_b_max:e.tBmax,tol_dE:e.tdE,
+    mes_L:parseFloat(document.getElementById("mes-L").value),
+    mes_a:parseFloat(document.getElementById("mes-a").value),
+    mes_b:parseFloat(document.getElementById("mes-b").value),
+    res_visuel:visuel,
+    etabli_par:document.getElementById("operateur").value,
+    date_constat:dateConstat
   };
-
   try {
-    const resp = await fetch(`${FLASK}/generate`, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(payload),
-    });
-    if (!resp.ok) throw new Error("HTTP " + resp.status);
-    const blob = await resp.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${payload.numero_constat.replace(/[\/°\s]/g,"_")}.xlsx`;
-    a.click();
+    const resp=await fetch(`${FLASK}/generate`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    if(!resp.ok) throw new Error("HTTP "+resp.status);
+    const blob=await resp.blob();
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url; a.download=numero.replace(/[\/°\s]/g,"_")+".xlsx"; a.click();
     URL.revokeObjectURL(url);
-    msgBox.style.display = "block";
-    msgBox.style.background = "#1a3a2a";
-    msgBox.style.border = "1px solid #3fb950";
-    msgBox.innerHTML = '<p style="font-size:13px;font-weight:700;color:#3fb950">✓ Fichier .xlsx téléchargé — prêt à imprimer !</p>';
+    msgBox.style.display="block"; msgBox.style.background="#1a3a2a"; msgBox.style.border="1px solid #3fb950";
+    msgBox.innerHTML='<span style="color:#3fb950;font-weight:700">✓ Fichier .xlsx téléchargé — prêt à imprimer !</span>';
   } catch(err) {
-    msgBox.style.display = "block";
-    msgBox.style.background = "#3a1a1a";
-    msgBox.style.border = "1px solid #f85149";
-    const msg = err.message.includes("fetch") || err.message.includes("Failed")
-      ? "❌ Serveur non joignable — attends 30s (Render se réveille) et réessaie"
-      : "❌ " + err.message;
-    msgBox.innerHTML = `<p style="font-size:12px;color:#f85149">${msg}</p>`;
+    msgBox.style.display="block"; msgBox.style.background="#3a1a1a"; msgBox.style.border="1px solid #f85149";
+    const msg=err.message.includes("fetch")||err.message.includes("Failed")
+      ?"❌ Serveur non joignable — attends 30s et réessaie":"❌ "+err.message;
+    msgBox.innerHTML=`<span style="color:#f85149">${msg}</span>`;
   }
-  btn.textContent = "📥 Générer le constat Excel (.xlsx)";
-  btn.disabled = false; btn.style.background = "linear-gradient(135deg,#1f6feb,#388bfd)"; btn.style.color = "#fff";
+  btn.textContent="📥 Générer le constat Excel (.xlsx)";
+  btn.disabled=false; btn.style.background="linear-gradient(135deg,#1f6feb,#388bfd)"; btn.style.color="#fff";
 }
+
+// ── Catalogue
+function renderCatalogue() {
+  const el=document.getElementById("cat-list");
+  if(!catalogue.length){el.innerHTML='<p style="text-align:center;color:#8b949e;padding:40px">Catalogue vide — ajoute ton premier étalon !</p>';return;}
+  el.innerHTML=catalogue.map(e=>`
+    <div class="etalon-item">
+      <div class="etalon-item-info">
+        <p style="font-weight:700;font-size:13px;margin-bottom:2px">${e.teinte}</p>
+        <p style="font-size:10px;color:#8b949e">${e.brillance}% · ${e.techno} · Primaire : ${e.primaire}</p>
+      </div>
+      <div class="etalon-item-vals">
+        <span><span style="color:#484f58">L* </span><span style="color:#79c0ff;font-weight:700">${e.refL.toFixed(2)}</span></span>
+        <span><span style="color:#484f58">a* </span><span style="color:#79c0ff;font-weight:700">${e.refA.toFixed(2)}</span></span>
+        <span><span style="color:#484f58">b* </span><span style="color:#79c0ff;font-weight:700">${e.refB.toFixed(2)}</span></span>
+      </div>
+      <div class="etalon-item-btns">
+        <button class="btn-edit" onclick="openModal('edit','${e.id}')">✏️</button>
+        <button class="btn-danger" onclick="deleteEtalon('${e.id}')">🗑️</button>
+      </div>
+    </div>`).join("");
+}
+
+function deleteEtalon(id) {
+  if(!confirm("Supprimer cet étalon du catalogue ?")) return;
+  catalogue=catalogue.filter(e=>e.id!==id);
+  LS.set("catalogue",catalogue);
+  if(currentEtalon&&currentEtalon.id===id){currentEtalon=null;document.getElementById("etalon-sel").value="";}
+  renderAll();
+}
+
+// ── Modal étalon
+function openModal(mode, id) {
+  editingId = mode==="edit" ? (id || (currentEtalon&&currentEtalon.id)) : null;
+  const e = editingId ? catalogue.find(x=>x.id===editingId) : null;
+  document.getElementById("modal-title").textContent = e ? "✏️ Modifier l'étalon" : "➕ Nouvel étalon";
+  document.getElementById("modal-save-btn").textContent = e ? "💾 Mettre à jour" : "➕ Ajouter";
+  // Techno select
+  const tsel=document.getElementById("m-techno");
+  tsel.innerHTML=cfg.technologies.map(t=>`<option>${t}</option>`).join("");
+  if(e){
+    document.getElementById("m-teinte").value=e.teinte;
+    document.getElementById("m-brillance").value=e.brillance;
+    tsel.value=e.techno;
+    document.getElementById("m-primaire").value=e.primaire;
+    document.getElementById("m-refL").value=e.refL;
+    document.getElementById("m-refA").value=e.refA;
+    document.getElementById("m-refB").value=e.refB;
+    document.getElementById("m-tLmin").value=e.tLmin;
+    document.getElementById("m-tLmax").value=e.tLmax;
+    document.getElementById("m-tAmin").value=e.tAmin;
+    document.getElementById("m-tAmax").value=e.tAmax;
+    document.getElementById("m-tBmin").value=e.tBmin;
+    document.getElementById("m-tBmax").value=e.tBmax;
+    document.getElementById("m-tdE").value=e.tdE;
+  } else {
+    ["m-teinte","m-brillance","m-primaire","m-refL","m-refA","m-refB"].forEach(id=>document.getElementById(id).value="");
+    ["m-tLmin","m-tLmax","m-tAmin","m-tAmax","m-tBmin","m-tBmax"].forEach(id=>document.getElementById(id).value=id.includes("min")?"-0.3":"0.3");
+    document.getElementById("m-tLmin").value="-0.5"; document.getElementById("m-tLmax").value="0.5";
+    document.getElementById("m-tdE").value="0.8";
+  }
+  document.getElementById("modal").style.display="flex";
+}
+
+function closeModal(){document.getElementById("modal").style.display="none"; editingId=null;}
+
+function saveEtalon(){
+  const t=document.getElementById("m-teinte").value.trim();
+  const b=document.getElementById("m-brillance").value.trim();
+  const p=document.getElementById("m-primaire").value.trim();
+  if(!t||!b||!p){alert("Teinte, brillance et étalon primaire sont obligatoires.");return;}
+  const entry={
+    id: editingId || (t+"_"+b+"_"+Date.now()),
+    teinte:t, brillance:b, techno:document.getElementById("m-techno").value, primaire:p,
+    refL:parseFloat(document.getElementById("m-refL").value)||0,
+    refA:parseFloat(document.getElementById("m-refA").value)||0,
+    refB:parseFloat(document.getElementById("m-refB").value)||0,
+    tLmin:parseFloat(document.getElementById("m-tLmin").value),
+    tLmax:parseFloat(document.getElementById("m-tLmax").value),
+    tAmin:parseFloat(document.getElementById("m-tAmin").value),
+    tAmax:parseFloat(document.getElementById("m-tAmax").value),
+    tBmin:parseFloat(document.getElementById("m-tBmin").value),
+    tBmax:parseFloat(document.getElementById("m-tBmax").value),
+    tdE:parseFloat(document.getElementById("m-tdE").value)
+  };
+  if(editingId) catalogue=catalogue.map(e=>e.id===editingId?entry:e);
+  else catalogue.push(entry);
+  LS.set("catalogue",catalogue);
+  closeModal(); renderAll();
+  if(currentEtalon&&currentEtalon.id===entry.id){currentEtalon=entry;onEtalonChange();}
+}
+
+// ── Settings
+function renderSettings(){
+  // Opérateurs
+  document.getElementById("op-list").innerHTML=cfg.operateurs.map((op,i)=>
+    `<div class="tag"><span>${op}</span><button class="tag-del" onclick="delOp(${i})">×</button></div>`).join("");
+  // Spectros
+  document.getElementById("spectro-list").innerHTML=cfg.spectros.map((s,i)=>
+    `<div class="spectro-item">
+      <div class="row2" style="margin-bottom:6px">
+        <div class="field"><label>Modèle</label><input value="${s.ref}" oninput="editSpectro(${i},'ref',this.value)"></div>
+        <div class="field"><label>N° identification</label><input value="${s.id}" oninput="editSpectro(${i},'id',this.value)"></div>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:8px">
+        <div class="field" style="flex:1"><label>Validité</label><input type="date" value="${s.validite}" oninput="editSpectro(${i},'validite',this.value)"></div>
+        <span style="font-size:10px;color:${new Date(s.validite)<new Date()?"#f85149":"#3fb950"};margin-bottom:8px">${new Date(s.validite)<new Date()?"⚠ Expiré":"✓ Valide"}</span>
+        <button class="btn-danger" style="margin-bottom:2px" onclick="delSpectro(${i})">🗑️</button>
+      </div>
+    </div>`).join("");
+  // Technologies
+  document.getElementById("tech-list").innerHTML=cfg.technologies.map((t,i)=>
+    `<div class="tag"><span>${t}</span><button class="tag-del" onclick="delTech(${i})">×</button></div>`).join("");
+  // Projets
+  document.getElementById("proj-list").innerHTML=cfg.projets.map((p,i)=>
+    `<div class="tag"><span>${p.code} — ${p.label}</span><button class="tag-del" onclick="delProjet(${i})">×</button></div>`).join("");
+  // Fournisseurs
+  document.getElementById("four-list").innerHTML=cfg.fournisseurs.map((f,i)=>
+    `<div class="tag"><span>${f.code} — ${f.label}</span><button class="tag-del" onclick="delFour(${i})">×</button></div>`).join("");
+}
+
+function addOp(){const v=document.getElementById("new-op").value.trim();if(!v)return;cfg.operateurs.push(v);document.getElementById("new-op").value="";LS.set("cfg",cfg);renderAll();}
+function delOp(i){cfg.operateurs.splice(i,1);LS.set("cfg",cfg);renderAll();}
+function editSpectro(i,k,v){cfg.spectros[i][k]=v;LS.set("cfg",cfg);renderSpectroSel();}
+function addSpectro(){const r=document.getElementById("new-sp-ref").value.trim(),id=document.getElementById("new-sp-id").value.trim(),v=document.getElementById("new-sp-val").value;if(!r||!id)return;cfg.spectros.push({ref:r,id:id,validite:v});["new-sp-ref","new-sp-id","new-sp-val"].forEach(x=>document.getElementById(x).value="");LS.set("cfg",cfg);renderAll();}
+function delSpectro(i){if(!confirm("Supprimer ce spectro ?"))return;cfg.spectros.splice(i,1);LS.set("cfg",cfg);renderAll();}
+function addTech(){const v=document.getElementById("new-tech").value.trim();if(!v)return;cfg.technologies.push(v);document.getElementById("new-tech").value="";LS.set("cfg",cfg);renderAll();}
+function delTech(i){cfg.technologies.splice(i,1);LS.set("cfg",cfg);renderAll();}
+function addProjet(){const c=document.getElementById("new-proj-code").value.trim().toUpperCase(),l=document.getElementById("new-proj-label").value.trim();if(!c||!l)return;cfg.projets.push({code:c,label:l});["new-proj-code","new-proj-label"].forEach(x=>document.getElementById(x).value="");LS.set("cfg",cfg);renderAll();}
+function delProjet(i){cfg.projets.splice(i,1);LS.set("cfg",cfg);renderAll();}
+function addFournisseur(){const c=document.getElementById("new-four-code").value.trim().toUpperCase(),l=document.getElementById("new-four-label").value.trim();if(!c||!l)return;cfg.fournisseurs.push({code:c,label:l});["new-four-code","new-four-label"].forEach(x=>document.getElementById(x).value="");LS.set("cfg",cfg);renderAll();}
+function delFour(i){cfg.fournisseurs.splice(i,1);LS.set("cfg",cfg);renderAll();}
+
+function setView(v){
+  document.querySelectorAll(".view").forEach(el=>el.classList.remove("active"));
+  document.getElementById("view-"+v).classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach((b,i)=>b.classList.toggle("active",["main","catalogue","settings"][i]===v));
+}
+
+init();
 </script>
 </body>
 </html>
