@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Générateur de Constat — CAF Reichshoffen</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh}
+.hdr{background:#161b22;border-bottom:1px solid #21262d;padding:14px 24px;display:flex;align-items:center;gap:12px}
+.logo{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#1f6feb,#388bfd);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hdr h1{font-size:15px;font-weight:700;color:#e6edf3}
+.hdr p{font-size:11px;color:#8b949e}
+.main{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px 24px;max-width:960px;margin:0 auto}
+.card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:18px}
+.card-title{font-size:11px;font-weight:700;color:#58a6ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+label{display:block;font-size:11px;color:#8b949e;margin-bottom:4px}
+input,select{width:100%;background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:7px 10px;color:#e6edf3;font-size:13px;outline:none;font-family:inherit;box-sizing:border-box}
+input:focus,select:focus{border-color:#58a6ff}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+.mes-inp{background:#0d1117;border:2px solid #1f6feb;border-radius:8px;padding:10px 6px;color:#e6edf3;font-size:17px;font-weight:700;text-align:center;width:100%;outline:none;font-family:inherit}
+.mes-inp:focus{border-color:#388bfd}
+.mes-label{font-size:12px;font-weight:700;color:#79c0ff;text-align:center;display:block;margin-bottom:5px}
+.ref-box{background:#0d1117;border:1px solid #21262d;border-radius:7px;padding:9px 12px;margin-top:8px}
+.ref-vals{display:flex;gap:14px;font-family:monospace;margin-top:4px}
+.delta-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:10px}
+.delta-card{display:flex;flex-direction:column;align-items:center;border-radius:8px;padding:8px 4px;border:1px solid}
+.result-row{display:flex;align-items:center;justify-content:space-between}
+.badge{padding:6px 14px;border-radius:7px;font-weight:800;font-size:12px;border:2px solid}
+.vis-row{display:flex;gap:10px}
+.vis-btn{flex:1;padding:9px 0;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px;border:2px solid;background:transparent;font-family:inherit;transition:all .15s}
+.num-box{background:#0d2149;border:1px solid #1f6feb;border-radius:9px;padding:12px;display:none}
+.num-lbl{font-size:10px;color:#58a6ff;font-weight:600;text-transform:uppercase;margin-bottom:4px}
+.gen-btn{width:100%;padding:14px 0;border-radius:10px;border:none;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;margin-top:4px;transition:all .2s}
+.msg{border-radius:9px;padding:12px;text-align:center;margin-top:8px;display:none}
+.col{display:flex;flex-direction:column;gap:12px}
+.ftr{border-top:1px solid #21262d;padding:9px 24px;display:flex;justify-content:space-between;margin-top:8px}
+.ftr span{font-size:10px;color:#484f58}
+.field{margin-bottom:0}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="logo">🎨</div>
+  <div>
+    <h1>Générateur de Constat — Étalon Secondaire de Peinture</h1>
+    <p>CAF Reichshoffen — Service Qualité Méthodes Métrologie</p>
+  </div>
+</div>
+
+<div class="main">
+  <div class="col">
+
+    <div class="card">
+      <div class="card-title">1 — Étalon à revalider</div>
+      <label>Sélectionner l'étalon</label>
+      <select id="etalon-sel" onchange="onEtalonChange()">
+        <option value="">— Choisir un étalon —</option>
+        <option value="RAL_9005">RAL 9005 — Noir foncé &gt;90 (Liquide)</option>
+        <option value="NCS_S2502">NCS S2502-Y — Blanc cassé 20-50% (Solide)</option>
+        <option value="RAL_7016">RAL 7016 — Gris anthracite &lt;30 (Liquide)</option>
+      </select>
+      <div id="etalon-detail" style="display:none;margin-top:10px">
+        <div class="row2">
+          <div class="field"><label>N° étalon secondaire</label><input id="sec-num" value="N°1" oninput="updateNumero()"></div>
+          <div class="field"><label>Position série</label><input id="pos-serie" value="1" oninput="updateNumero()"></div>
+        </div>
+        <div class="ref-box">
+          <p style="font-size:10px;color:#8b949e" id="ref-label">Réf primaire</p>
+          <div class="ref-vals" id="ref-vals"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">2 — Spectro-colorimètre</div>
+      <select id="spectro-sel" onchange="updateSpectro()" style="margin-bottom:6px">
+        <option value="0">X-Rite RM200 — 2010002886</option>
+        <option value="1">X-Rite MA98 — 2010003012</option>
+      </select>
+      <p style="font-size:11px;color:#8b949e">Validité : <span id="spectro-valid"></span></p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">3 — Informations constat</div>
+      <label>Opérateur</label>
+      <select id="operateur" style="margin-bottom:10px">
+        <option>L. VOEGTLING</option>
+        <option>D. KOEHL</option>
+        <option>J. GUILLERET</option>
+        <option>F.Z. SAFI</option>
+        <option>T. LATOUR</option>
+      </select>
+      <div class="row2">
+        <div class="field"><label>Date constat</label><input type="date" id="date-constat"></div>
+        <div class="field"><label>Date val. primaire</label><input type="date" id="date-prim"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col">
+
+    <div class="card">
+      <div class="card-title">4 — Valeurs mesurées</div>
+      <div class="row3">
+        <div><label class="mes-label">L*</label><input type="number" step="0.01" class="mes-inp" id="mes-L" placeholder="0.00" oninput="computeDelta()"></div>
+        <div><label class="mes-label">a*</label><input type="number" step="0.01" class="mes-inp" id="mes-a" placeholder="0.00" oninput="computeDelta()"></div>
+        <div><label class="mes-label">b*</label><input type="number" step="0.01" class="mes-inp" id="mes-b" placeholder="0.00" oninput="computeDelta()"></div>
+      </div>
+      <div id="delta-box" style="display:none;background:#0d1117;border-radius:8px;padding:12px;border:2px solid #238636">
+        <div class="delta-grid" id="delta-grid"></div>
+        <div class="result-row">
+          <span>
+            <span style="font-size:12px;color:#8b949e">ΔE = </span>
+            <span id="de-val" style="font-size:20px;font-weight:800;font-family:monospace;color:#3fb950">0.00</span>
+            <span id="de-seuil" style="font-size:10px;color:#484f58;margin-left:5px">/ 0.8</span>
+          </span>
+          <div class="badge" id="conforme-badge" style="color:#3fb950;border-color:#3fb950;background:#1a3a2a">✓ CONFORME</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">5 — Contrôle visuel (DTREI 150613)</div>
+      <div class="vis-row">
+        <button class="vis-btn" id="btn-conf" style="color:#3fb950;border-color:#3fb950;background:#1a3a2a" onclick="setVisuel('CONFORME')">✓ CONFORME</button>
+        <button class="vis-btn" id="btn-nonconf" style="color:#f85149;border-color:#f85149;opacity:.35" onclick="setVisuel('NON CONFORME')">✗ NON CONFORME</button>
+      </div>
+    </div>
+
+    <div class="num-box" id="num-box">
+      <p class="num-lbl">Numéro de constat</p>
+      <p id="num-val" style="font-size:11px;font-family:monospace;word-break:break-all;color:#e6edf3"></p>
+    </div>
+
+    <button class="gen-btn" id="gen-btn" disabled
+      style="background:#21262d;color:#484f58"
+      onclick="generate()">
+      📥 Générer le constat Excel (.xlsx)
+    </button>
+
+    <div id="msg-box" class="msg"></div>
+
+  </div>
+</div>
+
+<div class="ftr">
+  <span>CAF Reichshoffen — Service Qualité Méthodes Métrologie</span>
+  <span id="ftr-date"></span>
+</div>
+
+<script>
+const FLASK = "https://constat-generator.onrender.com";
+
+const CATALOGUE = {
+  RAL_9005:  {teinte:"RAL_9005",  brillance:">90",    techno:"Liquide", primaire:"RAL 9005",    L:5.0,  a:0.1,  b:-0.2, tLmin:-0.5,tLmax:0.5,tamin:-0.3,tamax:0.3,tbmin:-0.3,tbmax:0.3,tdE:0.8},
+  NCS_S2502: {teinte:"NCS_S2502-Y",brillance:"20-50%",techno:"Solide",  primaire:"NCS S2502-Y", L:90.2, a:-0.3, b:2.1,  tLmin:-0.5,tLmax:0.5,tamin:-0.3,tamax:0.3,tbmin:-0.3,tbmax:0.3,tdE:0.8},
+  RAL_7016:  {teinte:"RAL_7016",  brillance:"<30",    techno:"Liquide", primaire:"RAL 7016",    L:26.4, a:-0.8, b:-3.2, tLmin:-0.5,tLmax:0.5,tamin:-0.3,tamax:0.3,tbmin:-0.3,tbmax:0.3,tdE:0.8},
+};
+
+const SPECTROS = [
+  {ref:"X-Rite RM200", id:"2010002886", validite:"2025-08-01"},
+  {ref:"X-Rite MA98",  id:"2010003012", validite:"2026-02-01"},
+];
+
+let visuel = "CONFORME";
+let currentEtalon = null;
+
+document.getElementById("date-constat").value = new Date().toISOString().split("T")[0];
+document.getElementById("ftr-date").textContent = new Date().toLocaleDateString("fr-FR");
+updateSpectro();
+
+function updateSpectro() {
+  const i = parseInt(document.getElementById("spectro-sel").value);
+  const s = SPECTROS[i];
+  const expired = new Date(s.validite) < new Date();
+  document.getElementById("spectro-valid").textContent = s.validite + (expired ? " ⚠ Expiré" : " ✓ Valide");
+  document.getElementById("spectro-valid").style.color = expired ? "#f85149" : "#3fb950";
+}
+
+function onEtalonChange() {
+  const sel = document.getElementById("etalon-sel").value;
+  currentEtalon = CATALOGUE[sel] || null;
+  document.getElementById("etalon-detail").style.display = currentEtalon ? "block" : "none";
+  document.getElementById("num-box").style.display = currentEtalon ? "block" : "none";
+  if (currentEtalon) {
+    document.getElementById("ref-label").textContent = "Réf primaire : " + currentEtalon.primaire;
+    document.getElementById("ref-vals").innerHTML =
+      `<span><span style="font-size:10px;color:#8b949e">L* </span><span style="font-size:13px;font-weight:700;color:#79c0ff">${currentEtalon.L.toFixed(2)}</span></span>` +
+      `<span><span style="font-size:10px;color:#8b949e">a* </span><span style="font-size:13px;font-weight:700;color:#79c0ff">${currentEtalon.a.toFixed(2)}</span></span>` +
+      `<span><span style="font-size:10px;color:#8b949e">b* </span><span style="font-size:13px;font-weight:700;color:#79c0ff">${currentEtalon.b.toFixed(2)}</span></span>`;
+    document.getElementById("de-seuil").textContent = "/ " + currentEtalon.tdE;
+  }
+  computeDelta(); updateNumero();
+}
+
+function updateNumero() {
+  if (!currentEtalon) return;
+  const date = document.getElementById("date-constat").value || new Date().toISOString().split("T")[0];
+  const [y, m] = date.split("-");
+  const sec = document.getElementById("sec-num").value;
+  document.getElementById("num-val").textContent =
+    `HAN_${currentEtalon.teinte}_${currentEtalon.brillance.replace(/[^a-zA-Z0-9]/g,"")}_${m}-${y}_${sec}`;
+}
+
+function computeDelta() {
+  const e = currentEtalon;
+  const L = parseFloat(document.getElementById("mes-L").value);
+  const a = parseFloat(document.getElementById("mes-a").value);
+  const b = parseFloat(document.getElementById("mes-b").value);
+  const box = document.getElementById("delta-box");
+  const btn = document.getElementById("gen-btn");
+  if (!e || isNaN(L) || isNaN(a) || isNaN(b)) {
+    box.style.display = "none"; btn.disabled = true;
+    btn.style.background = "#21262d"; btn.style.color = "#484f58"; return;
+  }
+  const dL=L-e.L, da=a-e.a, db=b-e.b;
+  const dE = Math.sqrt(dL*dL + da*da + db*db);
+  const okL=dL>=e.tLmin&&dL<=e.tLmax, oka=da>=e.tamin&&da<=e.tamax,
+        okb=db>=e.tbmin&&db<=e.tbmax, okE=dE<=e.tdE;
+  const ok = okL&&oka&&okb&&okE;
+  box.style.display = "block";
+  box.style.borderColor = ok ? "#238636" : "#da3633";
+  document.getElementById("delta-grid").innerHTML =
+    [["ΔL",dL,e.tLmin,e.tLmax,okL],["Δa",da,e.tamin,e.tamax,oka],["Δb",db,e.tbmin,e.tbmax,okb]]
+    .map(([l,v,mn,mx,o]) =>
+      `<div class="delta-card" style="background:${o?"#1a3a2a":"#3a1a1a"};border-color:${o?"#3fb950":"#f85149"}">
+        <span style="font-size:9px;color:#8b949e;margin-bottom:2px">${l}</span>
+        <span style="font-size:15px;font-weight:800;font-family:monospace;color:${o?"#3fb950":"#f85149"}">${v.toFixed(2)}</span>
+        <span style="font-size:8px;color:#484f58">[${mn};${mx}]</span>
+      </div>`).join("");
+  const deEl = document.getElementById("de-val");
+  deEl.textContent = dE.toFixed(2); deEl.style.color = okE ? "#3fb950" : "#f85149";
+  const badge = document.getElementById("conforme-badge");
+  badge.textContent = ok ? "✓ CONFORME" : "✗ NON CONFORME";
+  badge.style.color = ok ? "#3fb950" : "#f85149";
+  badge.style.borderColor = ok ? "#3fb950" : "#f85149";
+  badge.style.background = ok ? "#1a3a2a" : "#3a1a1a";
+  btn.disabled = false;
+  btn.style.background = "linear-gradient(135deg,#1f6feb,#388bfd)";
+  btn.style.color = "#fff";
+}
+
+function setVisuel(v) {
+  visuel = v;
+  document.getElementById("btn-conf").style.opacity    = v==="CONFORME"     ? "1" : "0.35";
+  document.getElementById("btn-conf").style.background = v==="CONFORME"     ? "#1a3a2a" : "transparent";
+  document.getElementById("btn-nonconf").style.opacity    = v==="NON CONFORME" ? "1" : "0.35";
+  document.getElementById("btn-nonconf").style.background = v==="NON CONFORME" ? "#3a1a1a" : "transparent";
+}
+
+async function generate() {
+  const e = currentEtalon; if (!e) return;
+  const btn = document.getElementById("gen-btn");
+  const msgBox = document.getElementById("msg-box");
+  btn.textContent = "⏳ Génération en cours..."; btn.disabled = true;
+  msgBox.style.display = "none";
+
+  const spectroIdx = parseInt(document.getElementById("spectro-sel").value);
+  const sp = SPECTROS[spectroIdx];
+  const dateConstat = document.getElementById("date-constat").value;
+  const [y, m] = dateConstat.split("-");
+  const sec = document.getElementById("sec-num").value;
+
+  const payload = {
+    numero_constat: `HAN_${e.teinte}_${e.brillance.replace(/[^a-zA-Z0-9]/g,"")}_${m}-${y}_${sec}`,
+    site: "Reichshoffen", norme_visuelle: "DTREI 150613",
+    teinte: `${e.teinte}_${sec}`, brillance: e.brillance, technologie: e.techno,
+    spectro_ref: sp.ref, spectro_id: sp.id, spectro_validite: sp.validite,
+    etalon_secondaire: e.primaire, etalon_primaire: e.primaire,
+    ref_L: e.L, ref_a: e.a, ref_b: e.b,
+    date_validation_primaire: document.getElementById("date-prim").value || dateConstat,
+    tol_L_min: e.tLmin, tol_L_max: e.tLmax,
+    tol_a_min: e.tamin, tol_a_max: e.tamax,
+    tol_b_min: e.tbmin, tol_b_max: e.tbmax, tol_dE: e.tdE,
+    mes_L: parseFloat(document.getElementById("mes-L").value),
+    mes_a: parseFloat(document.getElementById("mes-a").value),
+    mes_b: parseFloat(document.getElementById("mes-b").value),
+    res_visuel: visuel,
+    etabli_par: document.getElementById("operateur").value,
+    date_constat: dateConstat,
+  };
+
+  try {
+    const resp = await fetch(`${FLASK}/generate`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload),
+    });
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    const blob = await resp.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${payload.numero_constat.replace(/[\/°\s]/g,"_")}.xlsx`;
+    a.click();
+    URL.revokeObjectURL(url);
+    msgBox.style.display = "block";
+    msgBox.style.background = "#1a3a2a";
+    msgBox.style.border = "1px solid #3fb950";
+    msgBox.innerHTML = '<p style="font-size:13px;font-weight:700;color:#3fb950">✓ Fichier .xlsx téléchargé — prêt à imprimer !</p>';
+  } catch(err) {
+    msgBox.style.display = "block";
+    msgBox.style.background = "#3a1a1a";
+    msgBox.style.border = "1px solid #f85149";
+    const msg = err.message.includes("fetch") || err.message.includes("Failed")
+      ? "❌ Serveur non joignable — attends 30s (Render se réveille) et réessaie"
+      : "❌ " + err.message;
+    msgBox.innerHTML = `<p style="font-size:12px;color:#f85149">${msg}</p>`;
+  }
+  btn.textContent = "📥 Générer le constat Excel (.xlsx)";
+  btn.disabled = false; btn.style.background = "linear-gradient(135deg,#1f6feb,#388bfd)"; btn.style.color = "#fff";
+}
+</script>
+</body>
+</html>
